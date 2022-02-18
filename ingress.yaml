@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: synapse-nginx
+  annotations:
+    #This defines the maximum uploadable filesize for Media.
+    #"max_upload_size" also needs to be adjusted inside homeserver.yaml
+    nginx.ingress.kubernetes.io/proxy-body-size: "100M"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ac3d3492b12584f58ab474f00d034a40-987067083.us-east-2.elb.amazonaws.com
+    http:
+      paths:
+      - path: /synapse
+        backend:
+          serviceName: synapse-service
+          servicePort: 80
